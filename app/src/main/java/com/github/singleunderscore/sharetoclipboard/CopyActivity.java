@@ -19,7 +19,7 @@ public class CopyActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         // make sure this is a share intent
-        if (Intent.ACTION_SEND.equals(intent.getAction())) {
+        if (intent != null && Intent.ACTION_SEND.equals(intent.getAction())) {
 
             String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
             if (sharedText == null) {
@@ -28,9 +28,12 @@ public class CopyActivity extends AppCompatActivity {
             } else {
                 ClipboardManager clipboard = (ClipboardManager)
                         getSystemService(Context.CLIPBOARD_SERVICE);
-                clipboard.setPrimaryClip(ClipData.newPlainText("Shared Text", sharedText));
 
-                Toast.makeText(getApplicationContext(), sharedText, Toast.LENGTH_SHORT).show();
+                if (clipboard != null) {
+                    clipboard.setPrimaryClip(ClipData.newPlainText("Shared Text", sharedText));
+
+                    Toast.makeText(getApplicationContext(), sharedText, Toast.LENGTH_SHORT).show();
+                }
             }
         }
 
